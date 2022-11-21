@@ -1,11 +1,53 @@
+//Questions: How to make save icon part of the click function
+          // How do you remove a task from local storage if a new one is submitted for the
+          //  same time slot? Why does my clickid come back as undefined
+          // Why am I getting errors on my function even though it works.
+
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(document).ready(function() {
   $(function () {
-
+//Sets variables for the current date, and gets the current hour.
     var date = dayjs().format("dddd, MMMM D");
-    var hour = dayjs().unix();
+    var hour = dayjs();
+//Sets the header to contain the current date.
+    $("#currentDay").text(date);
+//Creates an array of tasks to later be filled with task objects.
+    var tasks = [];
+//A funciton to detect when a save button is clicked, put the buttons parent id, and sibings text content into an object,
+//and then place the object into the array of tasks.
+    function save(event) {
+      event.preventDefault();
+      var target = $(event.target);
+      if (target.is('.saveBtn')) {
+        var taskText = target.prev('.description').val();
+        var clickID = target.parent().attr('id');
+        if (!taskText) {
+          alert('Nothing to save!');
+          return;
+        }
+        //Creates an object with the parent id, and task text
+        var taskSubmit = {
+          ID: clickID,
+          task: taskText
+        };
+        for (var i = 0; i >= tasks.length; i++) {
+          if (tasks[i].ID === clickID) {
+            tasks.splice(i, 1, taskSubmit);
+          }
+          // var removal = tasks.findIndex(taskSubmit => taskSubmit.ID == clickID);
+          // console.log(removal);
+          // tasks.splice(removal, 0);
+        }
+        //Pushes task to array of tasks
+        // tasks.push(taskSubmit);
+        //Stores the array of tasks in local storage
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+      }
+    }
+
+    $('.saveBtn').click(save);
 
     var nine = {
       hour: dayjs().hour(9),
@@ -78,11 +120,11 @@ $(document).ready(function() {
 
     console.log('Hour is: ' + hour);
     console.log('Date is: ' + date);
-    $("#currentDay").text(date);
 
-    // if(afterNine === true) {
-    //   $("#hour-11").removeClass('future').addClass('present');
-    // }
+
+ 
+
+
     // TODO: Add a listener for click events on the save button. This code should
     // use the id in the containing time-block as a key to save the user input in
     // local storage. HINT: What does `this` reference in the click listener
@@ -90,11 +132,6 @@ $(document).ready(function() {
     // time-block containing the button that was clicked? How might the id be
     // useful when saving the description in local storage?
     //
-    // TODO: Add code to apply the past, present, or future class to each time
-    // block by comparing the id to the current hour. HINTS: How can the id
-    // attribute of each time-block be used to conditionally add or remove the
-    // past, present, and future classes? How can Day.js be used to get the
-    // current hour in 24-hour time?
 
     //
     // TODO: Add code to get any user input that was saved in localStorage and set
