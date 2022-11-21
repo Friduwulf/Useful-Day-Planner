@@ -1,20 +1,63 @@
-//Questions: How to make save icon part of the click function
-          // How do you remove a task from local storage if a new one is submitted for the
-          //  same time slot? Why does my clickid come back as undefined
-          // Why am I getting errors on my function even though it works.
-
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(document).ready(function() {
   $(function () {
+    function renderSaves() {
+      var savedTaskNine = JSON.parse(window.localStorage.getItem('hour-9'));    
+      var savedTasksTen = JSON.parse(window.localStorage.getItem('hour-10'));
+      var savedTasksEleven = JSON.parse(window.localStorage.getItem('hour-11'));
+      var savedTasksTwelve = JSON.parse(window.localStorage.getItem('hour-12'));
+      var savedTasksThirteen = JSON.parse(window.localStorage.getItem('hour-13'));
+      var savedTasksFourteen = JSON.parse(window.localStorage.getItem('hour-14'));
+      var savedTasksFifteen = JSON.parse(window.localStorage.getItem('hour-15'));
+      var savedTasksSixteen = JSON.parse(window.localStorage.getItem('hour-16'));
+      var savedTasksSeventeen = JSON.parse(window.localStorage.getItem('hour-17'));
+
+      if(savedTaskNine !== null) { 
+        var upload = savedTaskNine.task;
+        $('#hour-9').children('.description').text(upload);
+      }
+      if(savedTasksTen !== null) {
+        var upload = savedTasksTen.task;
+        $('#hour-10').children('.description').text(upload);
+      }
+      if(savedTasksEleven !== null) {
+        var upload = savedTasksEleven.task;
+        $('#hour-11').children('.description').text(upload);
+      }
+      if(savedTasksTwelve !== null) {
+        var upload = savedTasksTwelve.task;
+        $('#hour-12').children('.description').text(upload);
+      }
+      if(savedTasksThirteen !== null) {
+        var upload = savedTasksThirteen.task;
+        $('#hour-13').children('.description').text(upload);
+      }
+      if(savedTasksFourteen !== null) {
+        var upload = savedTasksFourteen.task;
+        $('#hour-14').children('.description').text(upload);
+      }
+      if(savedTasksFifteen !== null) {
+        var upload = savedTasksFifteen.task;
+        $('#hour-15').children('.description').text(upload);
+      }
+      if(savedTasksSixteen !== null) {
+        var upload = savedTasksSixteen.task;
+        $('#hour-16').children('.description').text(upload);
+      }
+      if(savedTasksSeventeen !== null) {
+        var upload = savedTasksSeventeen.task;
+        $('#hour-17').children('.description').text(upload);
+      }
+    }
+    renderSaves();
+
 //Sets variables for the current date, and gets the current hour.
     var date = dayjs().format("dddd, MMMM D");
     var hour = dayjs();
 //Sets the header to contain the current date.
     $("#currentDay").text(date);
-//Creates an array of tasks to later be filled with task objects.
-    var tasks = [];
 //A funciton to detect when a save button is clicked, put the buttons parent id, and sibings text content into an object,
 //and then place the object into the array of tasks.
     function save(event) {
@@ -32,65 +75,54 @@ $(document).ready(function() {
           ID: clickID,
           task: taskText
         };
-        for (var i = 0; i >= tasks.length; i++) {
-          if (tasks[i].ID === clickID) {
-            tasks.splice(i, 1, taskSubmit);
-          }
-          // var removal = tasks.findIndex(taskSubmit => taskSubmit.ID == clickID);
-          // console.log(removal);
-          // tasks.splice(removal, 0);
-        }
-        //Pushes task to array of tasks
-        // tasks.push(taskSubmit);
-        //Stores the array of tasks in local storage
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+        localStorage.setItem(clickID, JSON.stringify(taskSubmit));
       }
     }
 
     $('.saveBtn').click(save);
-
+    
     var nine = {
-      hour: dayjs().hour(9),
+      slotHour: dayjs().hour(9),
       slot: "#hour-9"
     }
     
     var ten = {
-      hour: dayjs().hour(10),
+      slotHour: dayjs().hour(10),
       slot: "#hour-10"
     }
     
     var eleven = {
-      hour: dayjs().hour(11),
+      slotHour: dayjs().hour(11),
       slot: "#hour-11"
     }
     
     var twelve = {
-      hour: dayjs().hour(12),
+      slotHour: dayjs().hour(12),
       slot: "#hour-12"
     }
     
     var thirteen = {
-      hour: dayjs().hour(13),
+      slotHour: dayjs().hour(13),
       slot: "#hour-13"
     }
     
     var fourteen = {
-      hour: dayjs().hour(14),
+      slotHour: dayjs().hour(14),
       slot: "#hour-14"
     }
     
     var fifteen = {
-      hour: dayjs().hour(15),
+      slotHour: dayjs().hour(15),
       slot: "#hour-15"
     }
     
     var sixteen = {
-      hour: dayjs().hour(16),
+      slotHour: dayjs().hour(16),
       slot: "#hour-16"
     }
     
     var seventeen = {
-      hour: dayjs().hour(17),
+      slotHour: dayjs().hour(17),
       slot: "#hour-17"
     }
 
@@ -106,37 +138,16 @@ $(document).ready(function() {
       seventeen
       ];
 
-    for (var i = 0; i <= hourArr.length; i++) {
-      if(dayjs().isBefore(hourArr[i].hour, 'hour')) {
+    for (var i = 0; i < hourArr.length; i++) {
+      if(dayjs().isBefore(hourArr[i].slotHour, 'hour')) {
         $(hourArr[i].slot).removeClass('past present future').addClass('future');
       }
-      else if(dayjs().isSame(hourArr[i].hour, 'hour')) {
+      else if(dayjs().isSame(hourArr[i].slotHour, 'hour')) {
         $(hourArr[i].slot).removeClass('past present future').addClass('present');
       }
-      else if(dayjs().isAfter(hourArr[i].hour, 'hour')) {
+      else if(dayjs().isAfter(hourArr[i].slotHour, 'hour')) {
         $(hourArr[i].slot).removeClass('past present future').addClass('past');
       }
     }
-
-    console.log('Hour is: ' + hour);
-    console.log('Date is: ' + date);
-
-
- 
-
-
-    // TODO: Add a listener for click events on the save button. This code should
-    // use the id in the containing time-block as a key to save the user input in
-    // local storage. HINT: What does `this` reference in the click listener
-    // function? How can DOM traversal be used to get the "hour-x" id of the
-    // time-block containing the button that was clicked? How might the id be
-    // useful when saving the description in local storage?
-    //
-
-    //
-    // TODO: Add code to get any user input that was saved in localStorage and set
-    // the values of the corresponding textarea elements. HINT: How can the id
-    // attribute of each time-block be used to do this?
-    //
   });
 });
