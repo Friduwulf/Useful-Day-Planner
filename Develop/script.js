@@ -13,8 +13,6 @@ $(document).ready(function() {
       var savedTasksSixteen = JSON.parse(window.localStorage.getItem('hour-16'));
       var savedTasksSeventeen = JSON.parse(window.localStorage.getItem('hour-17'));
 
-      console.log(savedTaskNine.ID);
-
       var arrSaves = [
         savedTaskNine,
         savedTasksTen,
@@ -26,26 +24,29 @@ $(document).ready(function() {
         savedTasksSixteen,
         savedTasksSeventeen
       ];
-      console.log(arrSaves);
-      console.log(arrSaves[0]);
-      console.log(arrSaves[0].ID);
-      console.log(arrSaves[0].task);
-      
-      // WHY CAN'T I ACCESS PROPERTY VALUES (THEY COME UP AS UNDEFINED)
-      function doStuff() {
-        $.each(arrSaves, function(index, value) {
-          if(arrSaves !== null) {
-            $.each(savedTaskNine, function(ID, task) {
-              var timeSlot = ID;
-              var timeSlotTask = task;
-              console.log("timeslot: " + timeSlot);
-              console.log("task: " + timeSlotTask);
-              // $("'#" + timeSlot + "'").children('.description').text(timeSlotTask);
-            });
-          }
-        });
+
+      for (var i = 0; i < arrSaves.length; i++) {
+        if (arrSaves[i] !== null) {
+          var timeSlot = '#' + arrSaves[i].ID;
+          var timeSlotTask = arrSaves[i].task;
+          $(timeSlot).children('.description').text(timeSlotTask);
+        }
+        else {
+          continue;
+        }
       }
-      doStuff();
+
+      // $.each(arrSaves, function() {
+      //   if(arrSaves !== null) {
+      //     $.each(function(ID, task) {
+      //       var timeSlot = arrSaves.ID;
+      //       var timeSlotTask = arrSaves.task;
+      //       console.log("timeslot: " + timeSlot);
+      //       console.log("task: " + timeSlotTask);
+      //       $("'#" + timeSlot + "'").children('.description').text(timeSlotTask);
+      //     });
+      //   }
+      // });
 
       // if(savedTaskNine !== null) { 
       //   var upload = savedTaskNine.task;
