@@ -6,9 +6,9 @@ This project was created to get a better understanding of local API, such as jqu
 
 ## Installation
 
-To access this application, go to : https://friduwulf.github.io/semantic-DRY-horiseon/
+To access this application, go to : https://friduwulf.github.io/Useful-Day-Planner/
 
-![image](https://user-images.githubusercontent.com/34720583/198457119-b3f259b4-2a9d-49d7-9937-d0b5df92c4d1.png)
+![image](https://user-images.githubusercontent.com/34720583/203885564-a844d13e-0556-46cd-888b-3c67276f37ad.png)
 
 ## Usage
 
